@@ -47,7 +47,7 @@ jobs:
       - name: Reject duplicate or downgraded releases
         shell: bash
         env:
-          GH_TOKEN: ${{ github.token }
+          GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
           if gh release view "v$VER" >/dev/null 2>&1; then
@@ -63,7 +63,7 @@ jobs:
           fi
       - name: Publish Release APK
         env:
-          GH_TOKEN: ${{ github.token }
+          GH_TOKEN: ${{ github.token }}
         shell: bash
         run: |
           set -euo pipefail
