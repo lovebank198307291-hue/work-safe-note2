@@ -10,7 +10,7 @@ WORK SAFE NOTE2를 **APK 파일만으로 배포**하기 위한 GitHub 저장소�
 4. 성공하면 [Releases](https://github.com/lovebank198307291-hue/work-safe-note2/releases)에서 버전별 `WORK_SAFE_NOTE.apk`를 다운로드할 수 있어.
 
 - 업로드 파일명은 자유롭게 써도 돼. 예: `app-debug(6).apk`, `WSN_v1.0.8.apk`.
-- 최초 업로드 예정: `v1.0.7` / `versionCode 8`.
+- 최초 업로드 예정: `v1.0.8` / `versionCode 9`.
 - 이후 업데이트에서는 `versionName`과 `versionCode`를 모두 높여야 해.
 - **패키지명 `com.safetyladder.app`과 APK 서명 인증서를 반드시 유지해야 해.** 자동 빌드가 아니라 *기존 APK 서명을 검증하고 Release에 첨부*하는 기능이야.
 - 본 저장소는 공개 저장소야. APK에는 내부 코드·인증값이 포함될 수 있으니 공개 배포 전에 확인해.
@@ -23,7 +23,7 @@ https://github.com/lovebank198307291-hue/work-safe-note2/releases/latest/downloa
 
 ## 앱 내 업데이트 관련 주의
 
-**현재 v1.0.7 APK는 `jun2026` 저장소를 조회해.** 그러므로 이 저장소에서 Release를 만들어도 *이미 설치한 v1.0.7 앱은 새 저장소의 Release를 자동으로 감지하지 못해*. 이후 앱의 업데이트 주소를 `work-safe-note2`로 변경하여 **같은 서명키로** 새 APK를 빌드해야 해.
+**v1.0.8부터 `work-safe-note2` Release를 조회해.** 새 Release가 나오면 앱에서 버전을 비교해 APK 다운로드를 안내해. 설치는 안드로이드에서 승인해야 해.
 
 Android는 APK 설치 시 사용자의 승인이 필요해. GitHub Release만으로 기존 APK에 자동 설치 기능이 생기지 않아.
 
@@ -32,4 +32,11 @@ Android는 APK 설치 시 사용자의 승인이 필요해. GitHub Release만으
 자동 게시 과정에서 `apksigner`로 서명 블록을 확인하고 최초 APK와 동일한 인증서 지문인지 검사해. `versionCode` 역행·중복 버전은 게시하지 않아. 파일이나 서명이 잘못된 경우 Actions 로그에 원인이 표시돼.
 
 기준 인증서 SHA-256:
-`9db354ed6b724bb259727b761a33f41f914332adac131d246761b2401e77e7b2`
+`8ee04e93cd9de8969fa3acd85d98e8ae710f813cf146a51bab2c790d6b4b3030`
+
+## v1.0.8 새 서명 체계 주의
+
+- 기존 `app-debug(6).apk`의 디버그 서명 인증서와 v1.0.8 새 배포용 APK 서명 인증서는 **다름**.
+- v1.0.8 새 배포용 APK는 기존 디버그 앱에 덮어쓰기 설치할 수 없고, 먼저 데이터를 백업한 뒤 기존 앱을 제거해야 할 수 있어.
+- v1.0.8 이후 앱 업데이트는 동일한 새 배포용 개인키로 서명해야 성공해. 개인키 ZIP을 공개 GitHub에 절대 업로드하지 마.
+- v1.0.8 앱은 구버전 네이티브 업데이트 브리지 대신 HTML의 GitHub API 조회를 사용해. Android Studio 전체 소스에는 변경된 URL이 반영되어 있어.
