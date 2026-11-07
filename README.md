@@ -1,42 +1,36 @@
-# WORK SAFE NOTE2 — APK 배포 전용
+# WORK SAFE NOTE2 · APK 업데이트 저장소
 
-WORK SAFE NOTE2를 **APK 파일만으로 배포**하기 위한 GitHub 저장소야. 기존 `test`와 `jun2026` 저장소는 변경하지 않아.
+이 저장소는 `WORK SAFE NOTE2` APK의 다운로드와 업데이트 배포용이야. 다른 저장소 `test`, `jun2026`은 변경하지 않아.
 
-## APK 올리는 방법
+## 최신 기준 APK
+- 버전: **v1.0.8** (`versionCode 9`)
+- 패키지: `com.safetyladder.app`
+- 기존 v1.0.7과 **동일한 서명 인증서**
+- 앱 업데이트 조회: `work-safe-note2` GitHub Releases
+- 인증서 SHA-256: `9db354ed6b724bb259727b761a33f41f914332adac131d246761b2401e77e7b2`
+- 업로드 예정 APK SHA-256: `459b63618e0659555b86dedc462d54c9c9100b8f202dde8c6d68573edfacc340`
 
-1. [incoming 폴더](https://github.com/lovebank198307291-hue/work-safe-note2/tree/main/incoming)에서 **Add file → Upload files**를 눌러.
-2. 새 APK 파일 한 개를 업로드하고 **Commit changes**를 눌러.
-3. [Actions](https://github.com/lovebank198307291-hue/work-safe-note2/actions)의 `Publish APK Release`가 성공했는지 확인해.
-4. 성공하면 [Releases](https://github.com/lovebank198307291-hue/work-safe-note2/releases)에서 버전별 `WORK_SAFE_NOTE.apk`를 다운로드할 수 있어.
+## APK만 업로드하기
+1. [incoming 폴더](https://github.com/lovebank198307291-hue/work-safe-note2/tree/main/incoming)로 이동
+2. **Add file → Upload files**로 `WORK_SAFE_NOTE.apk` 업로드
+3. **Commit changes** 누르기
+4. [Actions](https://github.com/lovebank198307291-hue/work-safe-note2/actions)에서 **Publish APK Release** 성공 확인
+5. 성공하면 Release 태그 `v1.0.8`과 `WORK_SAFE_NOTE.apk`가 자동 게시됨
 
-- 업로드 파일명은 자유롭게 써도 돼. 예: `app-debug(6).apk`, `WSN_v1.0.8.apk`.
-- 최초 업로드 예정: `v1.0.8` / `versionCode 9`.
-- 이후 업데이트에서는 `versionName`과 `versionCode`를 모두 높여야 해.
-- **패키지명 `com.safetyladder.app`과 APK 서명 인증서를 반드시 유지해야 해.** 자동 빌드가 아니라 *기존 APK 서명을 검증하고 Release에 첨부*하는 기능이야.
-- 본 저장소는 공개 저장소야. APK에는 내부 코드·인증값이 포함될 수 있으니 공개 배포 전에 확인해.
-
-## 최신 APK 다운로드
-
-Release가 하나라도 게시된 뒤에 아래 링크가 작동해:
-
+### 최신 APK 다운로드
 https://github.com/lovebank198307291-hue/work-safe-note2/releases/latest/download/WORK_SAFE_NOTE.apk
 
-## 앱 내 업데이트 관련 주의
+**첫 Release가 성공한 뒤부터** 위 링크가 작동해.
 
-**v1.0.8부터 `work-safe-note2` Release를 조회해.** 새 Release가 나오면 앱에서 버전을 비교해 APK 다운로드를 안내해. 설치는 안드로이드에서 승인해야 해.
+## 다음 버전 업데이트
+- `versionName`을 `1.0.9` 이상으로 올리기
+- `versionCode`를 `10` 이상으로 올리기
+- **같은 패키지명과 서명키**를 사용해 빌드하기
+- 새 APK를 다시 `incoming`에 업로드하면 서명과 버전 검증 후 새 Release를 게시함
+- 앱은 신규 Release를 확인하고 다운로드를 안내함. 설치는 Android에서 사용자가 직접 승인해야 함
 
-Android는 APK 설치 시 사용자의 승인이 필요해. GitHub Release만으로 기존 APK에 자동 설치 기능이 생기지 않아.
+## 보안
+저장소가 **공개(Public)** 상태이므로 업로드한 APK는 누구나 내려받을 수 있어. 앱에 포함된 내부 인증정보·API 키가 없는지 배포 전에 확인해. **`debug.keystore` 등의 개인 서명키는 GitHub에 업로드하지 말 것.**
 
-## 보안 및 실패 조건
-
-자동 게시 과정에서 `apksigner`로 서명 블록을 확인하고 최초 APK와 동일한 인증서 지문인지 검사해. `versionCode` 역행·중복 버전은 게시하지 않아. 파일이나 서명이 잘못된 경우 Actions 로그에 원인이 표시돼.
-
-기준 인증서 SHA-256:
-`8ee04e93cd9de8969fa3acd85d98e8ae710f813cf146a51bab2c790d6b4b3030`
-
-## v1.0.8 새 서명 체계 주의
-
-- 기존 `app-debug(6).apk`의 디버그 서명 인증서와 v1.0.8 새 배포용 APK 서명 인증서는 **다름**.
-- v1.0.8 새 배포용 APK는 기존 디버그 앱에 덮어쓰기 설치할 수 없고, 먼저 데이터를 백업한 뒤 기존 앱을 제거해야 할 수 있어.
-- v1.0.8 이후 앱 업데이트는 동일한 새 배포용 개인키로 서명해야 성공해. 개인키 ZIP을 공개 GitHub에 절대 업로드하지 마.
-- v1.0.8 앱은 구버전 네이티브 업데이트 브리지 대신 HTML의 GitHub API 조회를 사용해. Android Studio 전체 소스에는 변경된 URL이 반영되어 있어.
+## 검증 범위
+APK 압축 무결성, 내장 버전명/코드, 패키지명, APK v2 서명 인증서, 업데이트 저장소 문자열을 확인했어. 실제 Android 기기 설치 및 GitHub Actions 성공은 APK를 게시한 뒤 별도 확인이 필요해.
