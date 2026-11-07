@@ -10,6 +10,12 @@
 - 인증서 SHA-256: `9db354ed6b724bb259727b761a33f41f914332adac131d246761b2401e77e7b2`
 - 업로드 예정 APK SHA-256: `459b63618e0659555b86dedc462d54c9c9100b8f202dde8c6d68573edfacc340`
 
+## 현재 배포 상태
+
+- **v1.0.8 Release 게시 완료.** APK 이름, 크기, SHA-256이 사용자가 제공한 파일과 동일함.
+- **v1.0.8은 다시 업로드하지 마.** GitHub Actions는 이미 존재하는 같은 버전의 Release를 중복 생성하지 않음.
+- **다음 v1.0.9부터** 아래 APK 업로드 절차를 사용하면 돼. 자동 게시 workflow는 아직 새 버전의 실제 성공 사례가 없어 후속 검증이 필요함.
+
 ## APK만 업로드하기
 1. [incoming 폴더](https://github.com/lovebank198307291-hue/work-safe-note2/tree/main/incoming)로 이동
 2. **Add file → Upload files**로 `WORK_SAFE_NOTE.apk` 업로드
