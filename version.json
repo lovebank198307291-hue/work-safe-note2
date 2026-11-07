@@ -3,10 +3,10 @@
   "packageName": "com.safetyladder.app",
   "initialApkVersionName": "1.0.8",
   "initialApkVersionCode": 9,
-  "expectedSignerCertificateSha256": "8ee04e93cd9de8969fa3acd85d98e8ae710f813cf146a51bab2c790d6b4b3030",
+  "expectedSignerCertificateSha256": "9db354ed6b724bb259727b761a33f41f914332adac131d246761b2401e77e7b2",
   "updateSource": "https://api.github.com/repos/lovebank198307291-hue/work-safe-note2/releases/latest",
   "apkDownload": "https://github.com/lovebank198307291-hue/work-safe-note2/releases/latest/download/WORK_SAFE_NOTE.apk",
   "releaseStatus": "pending_first_apk_upload",
-  "uploadedApkSha256": "5ee334d467ae9eac548a74eb430bea8dbddc9e42be97bf23dc2ebb538b689053",
-  "note": "WORK SAFE NOTE2 v1.0.8 checks this repository for updates; the APK is signed with a NEW certificate (not the older debug signer). Older installations require uninstall/backup; future APKs must use the new key."
+  "uploadedApkSha256": "459b63618e0659555b86dedc462d54c9c9100b8f202dde8c6d68573edfacc340",
+  "note": "User-provided v1.0.8 APK is signed with SAME certificate as v1.0.7 debug APK; compatible with in-place update if installed package and OS conditions match. App update checks work-safe-note2. Publish Release to activate distribution."
 }
