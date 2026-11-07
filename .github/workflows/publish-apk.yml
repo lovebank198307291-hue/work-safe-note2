@@ -1,0 +1,72 @@
+name: Publish APK Release
+"on":
+  push:
+    branches: [main]
+    paths: ['incoming/*.apk']
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - uses: android-actions/setup-android@v3
+      - name: Install APK tools
+        run: sdkmanager 'build-tools;35.0.0'
+      - name: Select uploaded APK
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ "${{ github.event_name }}" == "push" ]]; then
+            APK="$(git diff-tree --no-commit-id --name-only -r HEAD | grep -E '^incoming/[^/]+\.apk$' | head -n 1 || true)"
+          else
+            APK="$(find incoming -maxdepth 1 -type f -name '*.apk' | sort -r | head -n 1 || true)"
+          fi
+          test -n "$APK" && test -f "$APK" || { echo 'Upload a new APK into incoming/'; exit 1; }
+          printf 'APK=%s\n' "$APK" >> "$GITHUB_ENV"
+      - name: Verify package, version and signature
+        shell: bash
+        run: |
+          set -euo pipefail
+          TOOLS="$ANDROID_HOME/build-tools/35.0.0"
+          "$TOOLS/apksigner" verify --verbose "$APK"
+          LINE="$("$TOOLS/aapt" dump badging "$APK" | grep '^package:' | head -n 1)"
+          PACKAGE="$(printf '%s\n' "$LINE" | sed -n "s/.*name='\([^']*\)'.*/\1/p")"
+          CODE="$(printf '%s\n' "$LINE" | sed -n "s/.*versionCode='\([^']*\)'.*/\1/p")"
+          VER="$(printf '%s\n' "$LINE" | sed -n "s/.*versionName='\([^']*\)'.*/\1/p")"
+          CERT="$("$TOOLS/apksigner" verify --print-certs "$APK" | awk '/Signer #1 certificate SHA-256 digest:/ {print $NF; exit}')"
+          EXPECTED="9db354ed6b724bb259727b761a33f41f914332adac131d246761b2401e77e7b2"
+          [[ "$PACKAGE" == "com.safetyladder.app" ]] || { echo "Wrong package"; exit 1; }
+          [[ "$CERT" == "$EXPECTED" ]] || { echo "Signing certificate mismatch"; exit 1; }
+          [[ "$CODE" =~ ^[0-9]+$ ]] || { echo "Invalid versionCode"; exit 1; }
+          [[ "$VER" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] || { echo "Invalid versionName"; exit 1; }
+          printf 'CODE=%s\nVER=%s\n' "$CODE" "$VER" >> "$GITHUB_ENV"
+      - name: Reject duplicate or downgraded releases
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }
+        run: |
+          set -euo pipefail
+          if gh release view "v$VER" >/dev/null 2>&1; then
+            echo "Version v$VER already released"
+            exit 1
+          fi
+          if OLD="$(gh release view --json body --jq .body 2>/dev/null)"; then
+            OLD_CODE="$(printf '%s\n' "$OLD" | sed -n 's/^versionCode:[[:space:]]*\([0-9]*\).*$/\1/p' | head -n 1)"
+            if [[ "$OLD_CODE" =~ ^[0-9]+$ ]] && (( CODE <= OLD_CODE )); then
+              echo "versionCode must increase beyond $OLD_CODE"
+              exit 1
+            fi
+          fi
+      - name: Publish Release APK
+        env:
+          GH_TOKEN: ${{ github.token }
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp "$APK" "$RUNNER_TEMP/WORK_SAFE_NOTE.apk"
+          BODY="$(printf 'WORK SAFE NOTE2 v%s\nversionCode: %s\npackage: com.safetyladder.app\n\nAndroid requires user confirmation for installing updates.' "$VER" "$CODE")"
+          gh release create "v$VER" "$RUNNER_TEMP/WORK_SAFE_NOTE.apk" --title "WORK SAFE NOTE2 v$VER" --notes "$BODY" --latest
