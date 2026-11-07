@@ -7,6 +7,6 @@
   "updateSource": "https://api.github.com/repos/lovebank198307291-hue/work-safe-note2/releases/latest",
   "apkDownload": "https://github.com/lovebank198307291-hue/work-safe-note2/releases/latest/download/WORK_SAFE_NOTE.apk",
   "releaseStatus": "pending_first_apk_upload",
-  "uploadedApkSha256": "fcad109a86122fed3bb8d554b0fece97b0f52f77d1bbb02ef07afd3d587dfcfd",
+  "uploadedApkSha256": "5ee334d467ae9eac548a74eb430bea8dbddc9e42be97bf23dc2ebb538b689053",
   "note": "WORK SAFE NOTE2 v1.0.8 checks this repository for updates; the APK is signed with a NEW certificate (not the older debug signer). Older installations require uninstall/backup; future APKs must use the new key."
 }
