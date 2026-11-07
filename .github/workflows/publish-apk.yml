@@ -38,7 +38,7 @@ jobs:
           CODE="$(printf '%s\n' "$LINE" | sed -n "s/.*versionCode='\([^']*\)'.*/\1/p")"
           VER="$(printf '%s\n' "$LINE" | sed -n "s/.*versionName='\([^']*\)'.*/\1/p")"
           CERT="$("$TOOLS/apksigner" verify --print-certs "$APK" | awk '/Signer #1 certificate SHA-256 digest:/ {print $NF; exit}')"
-          EXPECTED="8ee04e93cd9de8969fa3acd85d98e8ae710f813cf146a51bab2c790d6b4b3030"
+          EXPECTED="9db354ed6b724bb259727b761a33f41f914332adac131d246761b2401e77e7b2"
           [[ "$PACKAGE" == "com.safetyladder.app" ]] || { echo "Wrong package"; exit 1; }
           [[ "$CERT" == "$EXPECTED" ]] || { echo "Signing certificate mismatch"; exit 1; }
           [[ "$CODE" =~ ^[0-9]+$ ]] || { echo "Invalid versionCode"; exit 1; }
