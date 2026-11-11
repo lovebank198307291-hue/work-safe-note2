@@ -1,8 +1,8 @@
 {
   "app": "WORK SAFE NOTE2",
   "packageName": "com.safetyladder.app",
-  "initialApkVersionName": "1.0.31",
-  "initialApkVersionCode":32,
+  "initialApkVersionName": "1.0.32",
+  "initialApkVersionCode":33,
   "expectedSignerCertificateSha256": "9db354ed6b724bb259727b761a33f41f914332adac131d246761b2401e77e7b2",
   "updateSource": "https://api.github.com/repos/lovebank198307291-hue/work-safe-note2/releases/latest",
   "apkDownload": "https://github.com/lovebank198307291-hue/work-safe-note2/releases/latest/download/WORK_SAFE_NOTE.apk",
